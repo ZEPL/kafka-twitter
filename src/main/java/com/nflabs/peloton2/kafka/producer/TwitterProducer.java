@@ -34,7 +34,7 @@ public class TwitterProducer {
     /** The actual Twitter stream. It's set up to collect raw JSON data */
     private TwitterStream twitterStream;
     
-    private void start(Context context) {
+    private void start(final Context context) {
 
         /** Producer properties **/
         Properties props = new Properties();
@@ -70,9 +70,9 @@ public class TwitterProducer {
                 // The EventBuilder is used to build an event using the the raw JSON of a tweet
                 // logger.info(status.getUser().getScreenName() + ": " +
                 // status.getText());
-
+                String topic = context.getString(TwitterSourceConstant.TOPIC_NAME); 
                 KeyedMessage<String, String> data = new KeyedMessage<String, String>(
-                        "twitter.live", DataObjectFactory.getRawJSON(status));
+                        topic , DataObjectFactory.getRawJSON(status));
                 producer.send(data);
             }
 
