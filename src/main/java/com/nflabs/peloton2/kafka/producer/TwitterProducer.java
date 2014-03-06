@@ -65,11 +65,12 @@ public class TwitterProducer {
 
 
         StatusListener tweetListener = new StatusListener() {
-            // The onStatus method is executed every time a new tweet comes in.
+
+            /**
+             * Executed every time a new tweet comes in
+             */
             public void onStatus(Status status) {
-                // The EventBuilder is used to build an event using the the raw JSON of a tweet
-                // logger.info(status.getUser().getScreenName() + ": " +
-                // status.getText());
+                //logger.info(status.getUser().getScreenName() + ": " + status.getText());
                 String topic = context.getString(TwitterSourceConstant.TOPIC_NAME); 
                 KeyedMessage<String, String> data = new KeyedMessage<String, String>(
                         topic , DataObjectFactory.getRawJSON(status));
@@ -103,7 +104,7 @@ public class TwitterProducer {
     
     public static void main(String[] args) {
         try {
-            Context context = new Context(args[0]);
+            Context context = args.length > 1 ? new Context(args[0]) : new Context("./conf/producer.conf");
             TwitterProducer tp = new TwitterProducer();
             tp.start(context);
         } catch (Exception e) {
