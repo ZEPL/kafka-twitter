@@ -65,13 +65,13 @@ public class TwitterProducer {
 
 
         StatusListener tweetListener = new StatusListener() {
-
+            final String topic = context.getString(TwitterSourceConstant.TOPIC_NAME); 
+            
             /**
              * Executed every time a new tweet comes in
              */
             public void onStatus(Status status) {
                 //logger.info(status.getUser().getScreenName() + ": " + status.getText());
-                String topic = context.getString(TwitterSourceConstant.TOPIC_NAME); 
                 KeyedMessage<String, String> data = new KeyedMessage<String, String>(
                         topic , DataObjectFactory.getRawJSON(status));
                 producer.send(data);
