@@ -3,13 +3,17 @@ package com.nflabs.peloton2.kafka.producer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Context {
-	Properties prop;
+/**
+ * Reads the configuration from the file
+ */
+public class Configuration {
+	private Properties prop;
 
-	Context( String path) throws Exception{
+	public Configuration(String path) throws IOException {
 	    File f = new File(path);
 		if (!f.exists()) {
 		    throw new FileNotFoundException(path);

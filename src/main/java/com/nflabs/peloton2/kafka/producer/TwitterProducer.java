@@ -20,7 +20,6 @@ import twitter4j.json.DataObjectFactory;
 
 /**
  * Kafka producer which listens for Twitter 1% firehose and send every tweet to Kafka 
- *
  */
 public class TwitterProducer {
     private static final Logger logger = LoggerFactory.getLogger(TwitterProducer.class);
@@ -34,7 +33,7 @@ public class TwitterProducer {
     /** The actual Twitter stream. It's set up to collect raw JSON data */
     private TwitterStream twitterStream;
     
-    private void start(final Context context) {
+    private void start(final Configuration context) {
 
         /** Producer properties **/
         Properties props = new Properties();
@@ -77,15 +76,11 @@ public class TwitterProducer {
                 producer.send(data);
             }
 
-            public void onDeletionNotice(
-                    StatusDeletionNotice statusDeletionNotice) {
-            }
+            public void onDeletionNotice( StatusDeletionNotice statusDeletionNotice) {}
 
-            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-            }
+            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {}
 
-            public void onScrubGeo(long userId, long upToStatusId) {
-            }
+            public void onScrubGeo(long userId, long upToStatusId) {}
 
             public void onException(Exception ex) {
                 logger.info("Shutting down Twitter sample stream...");
@@ -104,9 +99,9 @@ public class TwitterProducer {
     
     public static void main(String[] args) {
         try {
-            Context context = args.length > 1 ? new Context(args[0]) : new Context("./conf/producer.conf");
-            TwitterProducer tp = new TwitterProducer();
-            tp.start(context);
+            Configuration config = args.length > 1 ? new Configuration(args[0]) : new Configuration("./conf/producer.conf");
+            TwitterProducer producer = new TwitterProducer();
+            producer.start(config);
         } catch (Exception e) {
             logger.info(e.getMessage());
         }
