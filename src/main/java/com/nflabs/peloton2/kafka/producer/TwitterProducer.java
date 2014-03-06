@@ -68,7 +68,8 @@ public class TwitterProducer {
 		    // the raw JSON of a tweet
 		    //logger.info(status.getUser().getScreenName() + ": " + status.getText());
 		    
-		    KeyedMessage<String, String> data = new KeyedMessage<String, String>("twitter.live", DataObjectFactory.getRawJSON(status));
+		    KeyedMessage<String, String> data = new KeyedMessage<String, String>(context.getString(TwitterSourceConstant.KAFKA_TOPIC)
+											 , DataObjectFactory.getRawJSON(status));
 		    producer.send(data);
 		    
 		}
