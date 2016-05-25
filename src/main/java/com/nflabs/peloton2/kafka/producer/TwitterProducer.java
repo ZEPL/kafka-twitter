@@ -30,7 +30,7 @@ public class TwitterProducer {
     /** The actual Twitter stream. It's set up to collect raw JSON data */
     private TwitterStream twitterStream;
     
-    private void start(Context context) {
+    private void start(final Context context) {
 	
 	/** Producer properties **/
 	Properties props = new Properties();
